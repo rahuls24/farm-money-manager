@@ -19,11 +19,11 @@ jobs:
       
     steps:
       - name: Testing
-        run: echo ${{ env.PROD_REACT_APP_FIREBASE_APP_ID }}
+        run: echo ${{ env.PROD_REACT_APP_FIREBASE_APP_ID }} rahul
       - name: Testing1
-        run: echo ${{ env.prod_REACT_APP_FIREBASE_APP_ID }}
+        run: echo ${{ env.prod_REACT_APP_FIREBASE_APP_ID }} rahul
       - name: Testing2
-        run: echo ${{ github.env.prod.PROD_REACT_APP_FIREBASE_APP_ID }}
+        run: echo ${{ github.env.prod.PROD_REACT_APP_FIREBASE_APP_ID }} rahul
       - name: Use variables
         run: |
           echo "repository variable : $REPOSITORY_VAR" 
