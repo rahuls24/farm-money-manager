@@ -18,6 +18,12 @@ jobs:
       REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.PROD_REACT_APP_FIREBASE_MEASUREMENT_ID }}
       
     steps:
+      - name: Testing
+        run: echo ${{ env.PROD_REACT_APP_FIREBASE_APP_ID }}
+      - name: Testing1
+        run: echo ${{ env.prod_REACT_APP_FIREBASE_APP_ID }}
+      - name: Testing2
+        run: echo ${{ env.prod.REACT_APP_FIREBASE_APP_ID }}
       - name: Use variables
         run: |
           echo "repository variable : $REPOSITORY_VAR" 
