@@ -17,7 +17,10 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import { signInUsingEmailAndPassword } from '../../../services/auth/authentication';
+
 const validationSchema = yup.object({
 	email: yup
 		.string()
@@ -29,6 +32,7 @@ const validationSchema = yup.object({
 		.required('Password is required'),
 });
 export default function Signin() {
+	const navigate = useNavigate();
 	const [shouldShowPassword, setShowPassword] = useState(false);
 	const formik = useFormik({
 		initialValues: {
@@ -38,6 +42,15 @@ export default function Signin() {
 		validationSchema: validationSchema,
 		onSubmit: async values => {
 			try {
+				const loggedInUser = await signInUsingEmailAndPassword(
+					values.email,
+					values.password,
+				);
+				if (loggedInUser === null) {
+					return;
+				}
+				navigate('/');
+				console.log('loggedInUser', loggedInUser);
 			} catch (error) {
 				// TODO: Handle this
 			}

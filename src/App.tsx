@@ -1,14 +1,10 @@
 import './App.css';
-import AuthCheck from './features/auth/AuthCheck';
-import Signin from './features/auth/pages/Signin';
+import AppRoutes from './AppRoutes';
 
 function App() {
 	return (
 		<>
-			{/* <Header /> */}
-			<AuthCheck>
-				<Signin />
-			</AuthCheck>
+			<AppRoutes />
 		</>
 	);
 }
