@@ -18,6 +18,14 @@ jobs:
       REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.PROD_REACT_APP_FIREBASE_MEASUREMENT_ID }}
       
     steps:
+      - name: Use variables
+        run: |
+          echo "repository variable : $REPOSITORY_VAR" 
+          echo "organization variable : $ORGANIZATION_VAR"
+          echo "overridden variable : $OVERRIDE_VAR"
+          echo "variable from shell environment : $env_var"
+          echo "variable from custom testing : $vars.REPOSITORY_VAR"
+          echo "variable from custom testing 1 : ${{ vars.REPOSITORY_VAR }}"
       - uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v2
