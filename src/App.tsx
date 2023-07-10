@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 import './App.css';
 import AppRoutes from './AppRoutes';
 import { getLoggedInUser } from './services/auth/authentication';
-
 interface AuthContextProps {
 	isLoggedIn: boolean;
 	setLoggedIn: (loggedIn: boolean) => void;
@@ -37,9 +37,29 @@ function App() {
 		<>
 			<AuthContext.Provider value={{ isLoggedIn, setLoggedIn }}>
 				<AppRoutes />
+				<Main />
 			</AuthContext.Provider>
 		</>
 	);
 }
 
 export default App;
+
+function Main() {
+	return (
+		<>
+			<ToastContainer
+				position='bottom-left'
+				autoClose={5000}
+				hideProgressBar={false}
+				newestOnTop
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme='colored'
+			/>
+		</>
+	);
+}

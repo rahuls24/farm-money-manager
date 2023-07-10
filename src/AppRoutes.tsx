@@ -1,6 +1,9 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AuthCheck from './features/auth/AuthCheck';
+import ResetPassword from './features/auth/pages/ResetPassword';
 import Signin from './features/auth/pages/Signin';
+import Signup from './features/auth/pages/Signup';
+import Dashboard from './features/dashboard/Dashboard';
 function AppRoutes() {
 	return (
 		<BrowserRouter>
@@ -9,14 +12,15 @@ function AppRoutes() {
 					path='/'
 					element={
 						<AuthCheck>
-							<>Home Page</>
+							<Dashboard />
 						</AuthCheck>
 					}
 				></Route>
 				<Route path='/auth'>
 					<Route index element={<Signin />} />
 					<Route path='signin' element={<Signin />} />
-					<Route path='signup' element={<Signin />} />
+					<Route path='signup' element={<Signup />} />
+					<Route path='reset-password' element={<ResetPassword />} />
 				</Route>
 				<Route path='*' element={<NotFound />} />
 			</Routes>

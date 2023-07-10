@@ -14,3 +14,16 @@ export function convertToString(input: unknown): string {
 		return '';
 	}
 }
+/**
+ * It should only use for mocking the api
+ * delayForGivenTime is a function that returns a new promise after a certain amount of time
+ * @param {number} time - The time in milliseconds for which the promise should be delayed
+ * @returns {Promise<number>} - Returns a promise that resolves with a value of 24
+ */
+export function delayForGivenTime(time: number): Promise<number> {
+	return new Promise((res, rej) => {
+		setTimeout(() => {
+			res(24);
+		}, time);
+	});
+}

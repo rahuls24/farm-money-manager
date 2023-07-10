@@ -3,11 +3,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { Checkbox, FormControlLabel } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -15,10 +14,14 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { FirebaseError } from 'firebase/app';
 import { useFormik } from 'formik';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
+import { AuthContext } from '../../../App';
+import { authErrorMapping } from '../../../constants/auth/authError';
 import { signInUsingEmailAndPassword } from '../../../services/auth/authentication';
 
 const validationSchema = yup.object({
@@ -30,32 +33,46 @@ const validationSchema = yup.object({
 		.string()
 		.min(6, 'Password should be of minimum 6 characters length')
 		.required('Password is required'),
+	isRememberMeSelected: yup.boolean(),
 });
 export default function Signin() {
 	const navigate = useNavigate();
+	const { setLoggedIn } = useContext(AuthContext);
 	const [shouldShowPassword, setShowPassword] = useState(false);
+	const [isSaveBtnLoading, setIsSaveBtnLoading] = useState(false);
 	const formik = useFormik({
 		initialValues: {
 			email: '',
 			password: '',
+			isRememberMeSelected: true,
 		},
 		validationSchema: validationSchema,
 		onSubmit: async values => {
-			try {
-				const loggedInUser = await signInUsingEmailAndPassword(
-					values.email,
-					values.password,
+			setIsSaveBtnLoading(true);
+			console.log(
+				'values.isRememberMeSelected',
+				values.isRememberMeSelected,
+			);
+			const loggedInUser = await signInUsingEmailAndPassword(
+				values.email,
+				values.password,
+				values.isRememberMeSelected,
+			);
+			setIsSaveBtnLoading(false);
+			if (loggedInUser instanceof FirebaseError) {
+				toast.error(
+					authErrorMapping[loggedInUser.code] ??
+						'Something went wrong',
 				);
-				if (loggedInUser === null) {
-					return;
-				}
-				navigate('/');
-				console.log('loggedInUser', loggedInUser);
-			} catch (error) {
-				// TODO: Handle this
+
+				return;
 			}
+
+			setLoggedIn(true);
+			navigate('/');
 		},
 	});
+
 	return (
 		<>
 			<Grid container component='main' sx={{ height: '100vh' }}>
@@ -155,15 +172,21 @@ export default function Signin() {
 							<FormControlLabel
 								control={
 									<Checkbox
-										value='remember'
+										name='isRememberMeSelected'
+										onChange={formik.handleChange}
+										value={
+											formik.values.isRememberMeSelected
+										}
+										checked={
+											formik.values.isRememberMeSelected
+										}
 										color='primary'
-										disabled
 									/>
 								}
 								label='Remember me'
 							/>
 							<LoadingButton
-								loading={false}
+								loading={isSaveBtnLoading}
 								type='submit'
 								loadingPosition='end'
 								fullWidth
@@ -175,7 +198,10 @@ export default function Signin() {
 							</LoadingButton>
 							<Grid container>
 								<Grid item xs>
-									<Link href='#' variant='body2'>
+									<Link
+										href='/auth/reset-password'
+										variant='body2'
+									>
 										Forgot password?
 									</Link>
 								</Grid>

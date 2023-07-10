@@ -13,9 +13,14 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import { FirebaseError } from 'firebase/app';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
+import { authErrorMapping } from '../../../constants/auth/authError';
+import { signupUsingEmailAndPassword } from '../../../services/auth/authentication';
 import { convertToString } from '../../../utils/helperFunctions';
 
 const validationSchema = yup.object({
@@ -33,6 +38,8 @@ const validationSchema = yup.object({
 export default function Signup() {
 	// let navigate = useNavigate();
 	const [shouldShowPassword, setShowPassword] = useState(false);
+	const navigate = useNavigate();
+	const [isSubmitBtnLoading, setIsSubmitBtnLoading] = useState(false);
 	const formik = useFormik({
 		initialValues: {
 			name: '',
@@ -40,7 +47,26 @@ export default function Signup() {
 			password: '',
 		},
 		validationSchema: validationSchema,
-		onSubmit: async (values: any) => {},
+		onSubmit: async values => {
+			setIsSubmitBtnLoading(true);
+			const isUserRegistered = await signupUsingEmailAndPassword(
+				values.email,
+				values.password,
+				values.name,
+			);
+			setIsSubmitBtnLoading(false);
+			if (isUserRegistered instanceof FirebaseError) {
+				toast.error(
+					authErrorMapping[isUserRegistered.code] ??
+						'Something went wrong',
+				);
+
+				return;
+			}
+
+			toast.success('Please check your email for password reset link.');
+			navigate('/auth/signin');
+		},
 	});
 
 	return (
@@ -160,7 +186,7 @@ export default function Signup() {
 								}
 							/>
 							<LoadingButton
-								loading={false}
+								loading={isSubmitBtnLoading}
 								type='submit'
 								loadingPosition='end'
 								fullWidth

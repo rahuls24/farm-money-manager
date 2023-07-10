@@ -2,10 +2,14 @@ import { FirebaseApp, FirebaseError } from 'firebase/app';
 import {
 	UserCredential,
 	browserLocalPersistence,
+	createUserWithEmailAndPassword,
 	getAuth,
 	onAuthStateChanged,
+	sendPasswordResetEmail,
 	setPersistence,
 	signInWithEmailAndPassword,
+	signOut,
+	updateProfile,
 } from 'firebase/auth';
 import { getFirebaseAppInstance } from '../../firebaseConfig';
 let appInstance: FirebaseApp | null = null;
@@ -21,21 +25,102 @@ export async function getLoggedInUser() {
 		onAuthStateChanged(auth, resolve);
 	});
 }
+export async function signupUsingEmailAndPassword(
+	email: string,
+	password: string,
+	name: string,
+): Promise<boolean | FirebaseError> {
+	if (!appInstance)
+		return new FirebaseError(
+			'app/initialization-error',
+			'Something went wrong while initializing the Firebase app.',
+		);
+	const auth = getAuth(appInstance);
+	try {
+		const loggedInUser = await createUserWithEmailAndPassword(
+			auth,
+			email,
+			password,
+		);
+		await updateProfile(loggedInUser.user, {
+			displayName: name,
+		});
+		return true;
+	} catch (error: unknown) {
+		if (error instanceof FirebaseError) {
+			return error;
+		}
+		return new FirebaseError(
+			'auth/error',
+			'Something went wrong while signin.',
+		);
+	}
+}
 export async function signInUsingEmailAndPassword(
 	email: string,
 	password: string,
-): Promise<UserCredential | null> {
-	if (!appInstance) return null;
+	isRememberMeSelected: boolean = true,
+): Promise<UserCredential | FirebaseError> {
+	if (!appInstance)
+		return new FirebaseError(
+			'app/initialization-error',
+			'Something went wrong while initializing the Firebase app.',
+		);
 	const auth = getAuth(appInstance);
 	try {
-		await setPersistence(auth, browserLocalPersistence);
+		if (isRememberMeSelected)
+			await setPersistence(auth, browserLocalPersistence);
 		const loggedInUser = await signInWithEmailAndPassword(
 			auth,
 			email,
 			password,
 		);
 		return loggedInUser;
+	} catch (error: unknown) {
+		if (error instanceof FirebaseError) {
+			return error;
+		}
+		return new FirebaseError(
+			'auth/error',
+			'Something went wrong while signin.',
+		);
+	}
+}
+export async function signOutTheUser() {
+	if (!appInstance) return null;
+	const auth = getAuth(appInstance);
+	try {
+		await signOut(auth);
+		return true;
 	} catch (error) {
-		return null;
+		return false;
+	}
+}
+
+export function getCurrentSigninUser() {
+	if (!appInstance) return null;
+	return getAuth(appInstance).currentUser;
+}
+
+export async function resetPasswordBySendingMail(
+	email: string,
+): Promise<boolean | FirebaseError> {
+	if (!appInstance)
+		return new FirebaseError(
+			'app/initialization-error',
+			'Something went wrong while initializing the Firebase app.',
+		);
+	const auth = getAuth(appInstance);
+	try {
+		await sendPasswordResetEmail(auth, email);
+		return true;
+	} catch (error: unknown) {
+		if (error instanceof FirebaseError) {
+			return error;
+		}
+		return new FirebaseError(
+			'auth/error',
+			'Something went wrong while sending reset email.',
+		);
 	}
 }
