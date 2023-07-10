@@ -10,29 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENV_NAME: prod
-      REACT_APP_FIREBASE_API_KEY: ${{ secrets.PROD_REACT_APP_FIREBASE_API_KEY }}
-      REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.PROD_REACT_APP_FIREBASE_AUTH_DOMAIN }}
-      REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.PROD_REACT_APP_FIREBASE_PROJECT_ID }}
-      REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.PROD_REACT_APP_FIREBASE_STORAGE_BUCKET }}
-      REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.PROD_REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
-      REACT_APP_FIREBASE_APP_ID: ${{ secrets.PROD_REACT_APP_FIREBASE_APP_ID }}
-      REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.PROD_REACT_APP_FIREBASE_MEASUREMENT_ID }}
+      REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
+      REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.REACT_APP_FIREBASE_AUTH_DOMAIN }}
+      REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.REACT_APP_FIREBASE_PROJECT_ID }}
+      REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.REACT_APP_FIREBASE_STORAGE_BUCKET }}
+      REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_FIREBASE_MESSAGING_SENDER_ID }}
+      REACT_APP_FIREBASE_APP_ID: ${{ secrets.REACT_APP_FIREBASE_APP_ID }}
+      REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.REACT_APP_FIREBASE_MEASUREMENT_ID }}
       
     steps:
-      - name: Testing
-        run: echo ${{ env.PROD_REACT_APP_FIREBASE_APP_ID }} rahul
-      - name: Testing1
-        run: echo ${{ env.prod_REACT_APP_FIREBASE_APP_ID }} rahul
-      - name: Testing2
-        run: echo ${{ github.env.prod.PROD_REACT_APP_FIREBASE_APP_ID }} rahul
-      - name: Use variables
-        run: |
-          echo "repository variable : $REPOSITORY_VAR" 
-          echo "organization variable : $ORGANIZATION_VAR"
-          echo "overridden variable : $OVERRIDE_VAR"
-          echo "variable from shell environment : $env_var"
-          echo "variable from custom testing : $vars.REPOSITORY_VAR"
-          echo "variable from custom testing 1 : ${{ vars.REPOSITORY_VAR }}"
       - uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v2
