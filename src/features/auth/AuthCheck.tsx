@@ -1,8 +1,9 @@
+import { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { getIsLoggedIn } from '../../services/auth/authentication';
+import { AuthContext } from '../../App';
 function AuthCheck({ children }: { children: JSX.Element }) {
 	const location = useLocation();
-	const isLoggedIn = getIsLoggedIn();
+	const { isLoggedIn } = useContext(AuthContext);
 	console.log('isLoggedIn', isLoggedIn);
 	if (isLoggedIn) return children;
 	return <Navigate to='/auth/signin' state={{ from: location }} replace />;

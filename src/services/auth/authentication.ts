@@ -3,6 +3,7 @@ import {
 	UserCredential,
 	browserLocalPersistence,
 	getAuth,
+	onAuthStateChanged,
 	setPersistence,
 	signInWithEmailAndPassword,
 } from 'firebase/auth';
@@ -13,12 +14,12 @@ let appInstance: FirebaseApp | null = null;
 	if (app instanceof FirebaseError) return;
 	appInstance = app;
 })();
-export function getIsLoggedIn() {
+export async function getLoggedInUser() {
 	if (!appInstance) return false;
 	const auth = getAuth(appInstance);
-	console.log(auth.currentUser);
-	if (auth.currentUser) return true;
-	return false;
+	return new Promise((resolve, reject) => {
+		onAuthStateChanged(auth, resolve);
+	});
 }
 export async function signInUsingEmailAndPassword(
 	email: string,
