@@ -15,6 +15,7 @@ const firebaseConfig = {
 	appId: process.env.REACT_APP_FIREBASE_APP_ID,
 	measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
+console.log('Firebase config', { firebaseConfig });
 
 let appInstance: FirebaseApp | null = null;
 let analyticsInstance: Analytics | null = null;
@@ -33,7 +34,7 @@ export function getFirebaseAppInstance(): FirebaseApp | FirebaseError {
 			}
 			return new FirebaseError(
 				'app/initialization-error',
-				'Something went wrong while initializing the Firebase app.',
+				'Something went wrong while initializing the Firebase app.'
 			);
 		}
 	}
@@ -56,7 +57,7 @@ export function getFirebaseAnalytics(): Analytics | FirebaseError {
 			}
 			return new FirebaseError(
 				'analytics/initialization-error',
-				'Something went wrong while initializing Firebase analytics.',
+				'Something went wrong while initializing Firebase analytics.'
 			);
 		}
 	}
