@@ -2,6 +2,7 @@ import { FirebaseApp, FirebaseError } from 'firebase/app';
 import {
 	UserCredential,
 	browserLocalPersistence,
+	browserSessionPersistence,
 	createUserWithEmailAndPassword,
 	getAuth,
 	onAuthStateChanged,
@@ -70,6 +71,7 @@ export async function signInUsingEmailAndPassword(
 	try {
 		if (isRememberMeSelected)
 			await setPersistence(auth, browserLocalPersistence);
+		else setPersistence(auth, browserSessionPersistence);
 		const loggedInUser = await signInWithEmailAndPassword(
 			auth,
 			email,

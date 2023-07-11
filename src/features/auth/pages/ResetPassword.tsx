@@ -1,17 +1,17 @@
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import LockResetIcon from '@mui/icons-material/LockReset';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { FirebaseError } from 'firebase/app';
 import { useFormik } from 'formik';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { authErrorMapping } from '../../../constants/auth/authError';
@@ -73,7 +73,7 @@ export default function ResetPassword() {
 						}}
 					>
 						<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-							<LockOutlinedIcon />
+							<LockResetIcon />
 						</Avatar>
 						<Typography component='h1' variant='h5'>
 							Reset password
@@ -116,7 +116,11 @@ export default function ResetPassword() {
 							<Grid container>
 								<Grid item xs></Grid>
 								<Grid item>
-									<Link href='/auth/signin' variant='body2'>
+									<Link
+										to='/auth/signin'
+										className='underline text-sm tracking-wide link-color'
+									>
+										{' '}
 										{'Already have an account? Sign In'}
 									</Link>
 								</Grid>

@@ -10,14 +10,13 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { FirebaseError } from 'firebase/app';
 import { useFormik } from 'formik';
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { AuthContext } from '../../../App';
@@ -199,15 +198,19 @@ export default function Signin() {
 							<Grid container>
 								<Grid item xs>
 									<Link
-										href='/auth/reset-password'
-										variant='body2'
+										to='/auth/reset-password'
+										className='underline text-sm tracking-wide link-color'
 									>
 										Forgot password?
 									</Link>
 								</Grid>
 								<Grid item>
-									<Link href='/auth/signup' variant='body2'>
-										{"Don't have an account? Sign Up"}
+									<Link
+										to='/auth/signup'
+										className='underline text-sm tracking-wide link-color'
+									>
+										{' '}
+										{'Already have an account? Sign In'}
 									</Link>
 								</Grid>
 							</Grid>
