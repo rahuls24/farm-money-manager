@@ -48,10 +48,6 @@ export default function Signin() {
 		validationSchema: validationSchema,
 		onSubmit: async values => {
 			setIsSaveBtnLoading(true);
-			console.log(
-				'values.isRememberMeSelected',
-				values.isRememberMeSelected,
-			);
 			const loggedInUser = await signInUsingEmailAndPassword(
 				values.email,
 				values.password,
