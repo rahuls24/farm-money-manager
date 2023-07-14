@@ -26,6 +26,11 @@ export async function getLoggedInUser() {
 		onAuthStateChanged(auth, resolve);
 	});
 }
+export function getUserDetails() {
+	if (!appInstance) return false;
+	const auth = getAuth(appInstance);
+	return auth.currentUser;
+}
 export async function signupUsingEmailAndPassword(
 	email: string,
 	password: string,

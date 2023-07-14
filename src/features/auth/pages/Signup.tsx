@@ -63,7 +63,7 @@ export default function Signup() {
 				return;
 			}
 
-			toast.success('Please check your email for password reset link.');
+			toast.success('Registered successfully.');
 			navigate('/auth/signin');
 		},
 	});
