@@ -78,14 +78,14 @@ const Header = () => {
 						sx={{
 							mr: 2,
 							display: { xs: 'none', md: 'flex' },
-							fontFamily: 'monospace',
+							// fontFamily: 'monospace',
 							fontWeight: 700,
 							letterSpacing: '.3rem',
 							color: 'inherit',
 							textDecoration: 'none',
 						}}
 					>
-						Quiz
+						{'Farm Manager'}
 					</Typography>
 
 					<Box
@@ -137,9 +137,7 @@ const Header = () => {
 							))}
 						</Menu>
 					</Box>
-					<AdbIcon
-						sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}
-					/>
+
 					<Typography
 						variant='h5'
 						noWrap
@@ -150,13 +148,12 @@ const Header = () => {
 							display: { xs: 'flex', md: 'none' },
 							flexGrow: 1,
 							fontFamily: 'monospace',
-							fontWeight: 700,
-							letterSpacing: '.3rem',
+							fontWeight: 500,
 							color: 'inherit',
 							textDecoration: 'none',
 						}}
 					>
-						Quiz
+						{'Farm Manager'}
 					</Typography>
 					<Box
 						sx={{
