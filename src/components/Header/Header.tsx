@@ -18,6 +18,7 @@ import {
 	getUserDetails,
 	signOutTheUser,
 } from '../../services/auth/authentication';
+import { getAllFarmDetails } from '../../services/dashboard/dashboard';
 import { RouteDetails } from '../../types/routesRelated';
 import useGetMenusAnchor from './hooks/useGetMenusAnchor';
 import useHandleCurrentActiveNav from './hooks/useHandleCurrentActiveNav';
@@ -73,8 +74,8 @@ const Header = () => {
 					<Typography
 						variant='h6'
 						noWrap
-						component='a'
-						href='/'
+						// component='a'
+						// href='/'
 						sx={{
 							mr: 2,
 							display: { xs: 'none', md: 'flex' },
@@ -83,6 +84,9 @@ const Header = () => {
 							letterSpacing: '.3rem',
 							color: 'inherit',
 							textDecoration: 'none',
+						}}
+						onClick={async () => {
+							await getAllFarmDetails();
 						}}
 					>
 						{'Farm Manager'}

@@ -103,7 +103,7 @@ function Card(props: CardProps) {
 					}}
 				>
 					{moneyData.map(({ title, value }) => (
-						<Box>
+						<Box key={title}>
 							<Typography>{title}</Typography>
 							<Box
 								sx={{
