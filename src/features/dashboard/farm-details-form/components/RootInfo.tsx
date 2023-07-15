@@ -27,8 +27,6 @@ function RootInfo(props: RootInfoProps) {
 				sx={{
 					display: 'flex',
 					gap: '8px',
-
-					alignItems: { md: 'center' },
 					paddingX: '8px',
 					flexDirection: { xs: 'column', md: 'row' },
 				}}
@@ -71,24 +69,37 @@ function RootInfo(props: RootInfoProps) {
 						<TextField
 							{...params}
 							autoFocus
+							name='name'
 							label='Farm Name'
 							margin='normal'
 							sx={{ marginTop: { md: '8px' } }}
 							fullWidth
+							error={
+								formik.touched.name &&
+								Boolean(formik.errors.name)
+							}
+							helperText={
+								formik.touched.name && formik.errors.name
+							}
 						/>
 					)}
 				/>
 				<LocalizationProvider dateAdapter={AdapterDateFns}>
 					<MobileDatePicker
-						defaultValue={new Date()}
+						value={formik.values.startDate}
 						label='Start Date'
+						format='dd-MM-yy'
+					/>
+					<MobileDatePicker
+						value={formik.values.expectedDate}
+						label='Expected Date'
+						format='dd-MM-yy'
 					/>
 				</LocalizationProvider>
 				<Box
 					sx={{
 						display: { xs: 'flex', md: 'block' },
 						justifyContent: 'space-between',
-						alignItems: 'center',
 					}}
 				>
 					<TextField
@@ -99,7 +110,7 @@ function RootInfo(props: RootInfoProps) {
 						InputProps={{
 							endAdornment: (
 								<InputAdornment position='end'>
-									m^2
+									Katha
 								</InputAdornment>
 							),
 						}}

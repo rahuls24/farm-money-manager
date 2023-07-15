@@ -1,4 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
+import LoadingButton from '@mui/lab/LoadingButton';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -10,8 +11,12 @@ import Typography from '@mui/material/Typography';
 import { TransitionProps } from '@mui/material/transitions';
 import { useFormik } from 'formik';
 import * as React from 'react';
+import CropDetails from './components/CropDetails';
 import FormSections from './components/FormSections';
+import HarvestDetails from './components/HarvestDetails';
+import PlantingDetails from './components/PlantingDetails';
 import RootInfo from './components/RootInfo';
+import SoldDetails from './components/SoldDetails';
 import { initialState } from './constants/initialFormState';
 import { FarmDetails, farmDetailsSchema } from './farmDetailsFormSchema';
 
@@ -39,12 +44,17 @@ function FarmDetailsForm(props: FarmDetailsFormProps) {
 	});
 	console.log({ value: formik.values });
 	return (
-		<Box component='form' onSubmit={formik.handleSubmit} sx={{ mt: 1 }}>
-			<Dialog
-				fullScreen
-				open={open}
-				onClose={onCloseHandler}
-				TransitionComponent={Transition}
+		<Dialog
+			fullScreen
+			open={open}
+			onClose={onCloseHandler}
+			TransitionComponent={Transition}
+		>
+			<Box
+				component='form'
+				onSubmit={formik.handleSubmit}
+				sx={{ overflowY: 'scroll' }}
+				className='scroll'
 			>
 				<AppBar sx={{ position: 'relative' }}>
 					<Toolbar>
@@ -70,8 +80,24 @@ function FarmDetailsForm(props: FarmDetailsFormProps) {
 				</AppBar>
 				<FormSections />
 				<RootInfo formik={formik} />
-			</Dialog>
-		</Box>
+				<CropDetails formik={formik} />
+				<PlantingDetails formik={formik} />
+				<HarvestDetails formik={formik} />
+				<SoldDetails formik={formik} />
+				<Box sx={{ paddingX: '8px' }}>
+					<LoadingButton
+						loading={false}
+						type='submit'
+						loadingPosition='end'
+						fullWidth
+						variant='contained'
+						sx={{ mt: 3, mb: 2 }}
+					>
+						Save
+					</LoadingButton>
+				</Box>
+			</Box>
+		</Dialog>
 	);
 }
 
